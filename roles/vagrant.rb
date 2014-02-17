@@ -47,7 +47,6 @@ run_list(
 	"recipe[synapse::dbserver]",
 	"recipe[synapse::cacheserver]",
 	"recipe[synapse::dev_utils]",
-	"recipe[bodetree_crons]",
 	"recipe[app_deploy::web]",
 	"recipe[app_deploy::slow_worker]",
 	"recipe[app_deploy]"
