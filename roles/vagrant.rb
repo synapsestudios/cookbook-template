@@ -1,0 +1,54 @@
+name "vagrant"
+
+override_attributes(
+	"server" => {
+		"user"           => "vagrant",
+		"webroot"        => "/vagrant/public",
+		"docroot"        => "/vagrant",
+		"database_name"  => "database_vm",
+		"server_name"    => "project.vm",
+		"server_aliases" => [ "project.vm"]
+	},
+	"mysql" => {
+		"server_root_password"   => "synapse1",
+		"server_repl_password"   => "synapse1",
+		"server_debian_password" => "synapse1",
+		"remove_anonymous_users" => true,
+		"allow_remote_root"      => true,
+		"remove_test_database"   => true
+	},
+	"etc_environment" => {
+		"KOHANA_ENV" => 'development',
+		"APP_NAME"   => 'project'
+	},
+	"php" => {
+		"directives" => {
+			"date.timezone"        => "America/Phoenix",
+			"upload_max_filesize"  => "8M",
+			"session.save_handler" => "redis",
+			"session.save_path"    => "tcp://localhost:6379"
+		}
+	}
+)
+
+run_list(
+	"recipe[etc_environment]",
+	"recipe[apt]",
+	"recipe[apache2]",
+	"recipe[apache2::mod_php5]",
+	"recipe[apache2::mod_env]",
+	"recipe[apache2::mod_rewrite]",
+	"recipe[mysql]",
+	"recipe[mysql::server]",
+	"recipe[mysql::client]",
+	"recipe[nodejs::install_from_package]",
+	"recipe[synapse::webserver]",
+	"recipe[synapse::appserver]",
+	"recipe[synapse::dbserver]",
+	"recipe[synapse::cacheserver]",
+	"recipe[synapse::dev_utils]",
+	"recipe[bodetree_crons]",
+	"recipe[app_deploy::web]",
+	"recipe[app_deploy::slow_worker]",
+	"recipe[app_deploy]"
+)
