@@ -1,0 +1,57 @@
+[submodule "apache2"]
+	path = apache2
+	url = https://github.com/opscode-cookbooks/apache2.git
+[submodule "apt"]
+	path = apt
+	url = https://github.com/opscode-cookbooks/apt.git
+[submodule "aws"]
+	path = aws
+	url = https://github.com/opscode-cookbooks/aws.git
+[submodule "build-essential"]
+	path = build-essential
+	url = https://github.com/opscode-cookbooks/build-essential.git
+[submodule "chef_handler"]
+	path = chef_handler
+	url = https://github.com/opscode-cookbooks/chef_handler.git
+[submodule "database"]
+	path = database
+	url = https://github.com/opscode-cookbooks/database.git
+[submodule "etc_environment"]
+	path = etc_environment
+	url = https://github.com/locomote-cookbooks/etc_environment.git
+[submodule "iis"]
+	path = iis
+	url = https://github.com/opscode-cookbooks/iis.git
+[submodule "mysql"]
+	path = mysql
+	url = https://github.com/opscode-cookbooks/mysql.git
+[submodule "nodejs"]
+	path = nodejs
+	url = https://github.com/mdxp/nodejs-cookbook.git
+[submodule "openssl"]
+	path = openssl
+	url = https://github.com/opscode-cookbooks/openssl.git
+[submodule "php"]
+	path = php
+	url = https://github.com/synapsestudios/php.git
+[submodule "windows"]
+	path = windows
+	url = https://github.com/opscode-cookbooks/windows.git
+[submodule "postgresql"]
+	path = postgresql
+	url = https://github.com/opscode-cookbooks/postgresql.git
+[submodule "xfs"]
+	path = xfs
+	url = https://github.com/opscode-cookbooks/xfs.git
+[submodule "xml"]
+	path = xml
+	url = https://github.com/opscode-cookbooks/xml.git
+[submodule "yum"]
+	path = yum
+	url = https://github.com/opscode-cookbooks/yum.git
+[submodule "yum-epel"]
+	path = yum-epel
+	url = https://github.com/opscode-cookbooks/yum-epel.git
+[submodule "cron"]
+	path = cron
+	url = https://github.com/opscode-cookbooks/cron.git
