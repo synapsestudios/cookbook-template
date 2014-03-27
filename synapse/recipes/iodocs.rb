@@ -1,3 +1,7 @@
+package "git" do
+    action :install
+end
+
 git "iodocs" do
     repository "https://github.com/mashery/iodocs"
     revision "master"
