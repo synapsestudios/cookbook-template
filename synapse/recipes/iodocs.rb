@@ -3,8 +3,8 @@ package "git" do
 end
 
 git "iodocs" do
-    repository "https://github.com/mashery/iodocs"
-    revision "master"
+    repository "https://github.com/vky/iodocs"
+    revision "feature/content-parameters"
     user node['server']['user']
     destination "/home/#{node['server']['user']}/iodocs"
     action :checkout
