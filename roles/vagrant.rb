@@ -50,5 +50,5 @@ run_list(
 	"recipe[app_deploy::web]",
 	"recipe[app_deploy::slow_worker]",
 	"recipe[app_deploy]",
-    "recipe[synapse::iodocs]"
+    "recipe[synapse::lively]"
 )
