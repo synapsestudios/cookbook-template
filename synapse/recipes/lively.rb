@@ -7,7 +7,7 @@ git "lively" do
     revision "master"
     user node['server']['user']
     destination "/home/#{node['server']['user']}/lively"
-    action :checkout
+    action :sync
 end
 
 execute "npm-install-gulp" do
