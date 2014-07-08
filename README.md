@@ -9,5 +9,5 @@
 1. Update the development and qa roles
 1. Commit the files and submodules to master and push to origin
 1. Open the main project repository
-1. Run `git submodule add [new-cookbooks-repo-url]`
+1. Run `git submodule add [new-cookbooks-repo-url] cookbooks`
 1. Run `git submodule update --init --recursive`
