@@ -23,7 +23,7 @@ execute "npm-install-lively" do
 end
 
 execute "bower-install-lively" do
-    creates "node_modules"
+    creates "bower_components"
     cwd "/home/#{node['server']['user']}/lively"
     command "bower install"
     user node['server']['user']
