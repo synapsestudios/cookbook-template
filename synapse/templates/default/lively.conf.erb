@@ -1,0 +1,9 @@
+<VirtualHost *:<%= @params[:server_port] || node['apache']['listen_ports'].first %>>
+  ServerName <%= @params[:server_name] %>
+  ProxyPass  / http://localhost:9001/
+
+  <Location />
+    Order allow,deny
+    Allow from all
+  </Location>
+</VirtualHost>
