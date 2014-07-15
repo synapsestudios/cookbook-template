@@ -55,3 +55,12 @@
 [submodule "cron"]
 	path = cron
 	url = https://github.com/opscode-cookbooks/cron.git
+[submodule "supervisor"]
+	path = supervisor
+	url = git@github.com:poise/supervisor.git
+[submodule "python"]
+	path = python
+	url = git@github.com:poise/python.git
+[submodule "composer"]
+	path = composer
+	url = git@github.com:escapestudios-cookbooks/composer.git
