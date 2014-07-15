@@ -9,6 +9,12 @@ override_attributes(
 		"server_name"    => "project.vm",
 		"server_aliases" => [ "project.vm"]
 	},
+	"lively" => {
+		"confroot"       => "/home/vagrant/docs",
+		"docroot"        => "/home/vagrant/lively",
+		"server_name"    => "lively.project.vm",
+		"server_aliases" => [ "lively.project.vm" ]
+	},
 	"mysql" => {
 		"server_root_password"   => "synapse1",
 		"server_repl_password"   => "synapse1",
@@ -18,8 +24,8 @@ override_attributes(
 		"remove_test_database"   => true
 	},
 	"etc_environment" => {
-		"KOHANA_ENV" => 'development',
-		"APP_NAME"   => 'project'
+		"APP_ENV"  => 'development',
+		"APP_NAME" => 'project'
 	},
 	"php" => {
 		"directives" => {
@@ -32,23 +38,29 @@ override_attributes(
 )
 
 run_list(
+	"recipe[app_deploy::shutdown_worker]",
 	"recipe[etc_environment]",
 	"recipe[apt]",
 	"recipe[apache2]",
 	"recipe[apache2::mod_php5]",
 	"recipe[apache2::mod_env]",
 	"recipe[apache2::mod_rewrite]",
+	"recipe[apache2::mod_proxy]",
+	"recipe[apache2::mod_proxy_http]",
 	"recipe[mysql]",
 	"recipe[mysql::server]",
 	"recipe[mysql::client]",
 	"recipe[nodejs::install_from_package]",
+	"recipe[composer]",
+	"recipe[python]",
+	"recipe[supervisor]",
 	"recipe[synapse::webserver]",
 	"recipe[synapse::appserver]",
 	"recipe[synapse::dbserver]",
 	"recipe[synapse::cacheserver]",
 	"recipe[synapse::dev_utils]",
 	"recipe[app_deploy::web]",
-	"recipe[app_deploy::slow_worker]",
+	"recipe[app_deploy::worker]",
 	"recipe[app_deploy]",
     "recipe[synapse::lively]"
 )
