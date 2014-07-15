@@ -3,6 +3,7 @@ apt:8ef28bc
 aws:f84de5c
 build-essential:9eea6e1
 chef_handler:eadaa1e
+composer:1c23622
 cron:ff7d504
 database:01d6230
 etc_environment:1eab31e
@@ -12,6 +13,8 @@ nodejs:4c68552
 openssl:b9a52cd
 php:e5b36f3
 postgresql:5800238
+python:56424ab
+supervisor:e21ca6c
 windows:07ab577
 xfs:18a49fc
 xml:f506685
