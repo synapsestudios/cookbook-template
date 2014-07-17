@@ -24,7 +24,7 @@
     Allow from 127.0.0.1
   </Location>
 
-  SetEnv KOHANA_ENV <%= node['etc_environment']['KOHANA_ENV'] %>
+  SetEnv APP_ENV <%= node['etc_environment']['APP_ENV'] %>
   SetEnv APP_NAME <%= node['etc_environment']['APP_NAME'] %>
 
   LogLevel info
