@@ -25,6 +25,8 @@ node[:deploy].each do |application, deploy|
 		user         'deploy'
 		group        'www-data'
 		action       :deploy
+		symlink_before_migrate({})
+		symlinks({})
 
 		# git options
 		enable_submodules false
