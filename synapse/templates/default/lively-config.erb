@@ -1,7 +1,11 @@
 'use strict';
 
 module.exports = {
+    lively : {
+        hostname : '<%= node['lively']['server_name'] %>',
+        port     : 80
+    },
     apis : {
-        api : require('<%= node['lively']['confroot'] %>/config.project')
+        api : require('<%= node['lively']['confroot'] %>/config.puppies')
     }
 };
