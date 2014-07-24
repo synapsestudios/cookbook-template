@@ -64,3 +64,6 @@
 [submodule "composer"]
 	path = composer
 	url = git@github.com:escapestudios-cookbooks/composer.git
+[submodule "hostsfile"]
+	path = hostsfile
+	url = git@github.com:customink-webops/hostsfile.git
