@@ -7,6 +7,7 @@ composer:1c23622
 cron:ff7d504
 database:01d6230
 etc_environment:1eab31e
+hostsfile:495fd80
 iis:ea66276
 mysql:d9c657f
 nodejs:4c68552
