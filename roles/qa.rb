@@ -17,7 +17,12 @@ override_attributes(
         "server_debian_password" => "synapse1",
         "remove_anonymous_users" => true,
         "allow_remote_root"      => true,
-        "remove_test_database"   => true
+        "remove_test_database"   => true,
+        "confd_dir"              => "/etc/mysql/conf.d"
+    },
+    "mysql_charset" => {
+        "encoding"  => "utf8",
+        "collation" => "utf8_unicode_ci"
     },
     "etc_environment" => {
         "APP_ENV" => 'qa'
@@ -45,6 +50,7 @@ run_list(
     "recipe[mysql]",
     "recipe[mysql::server]",
     "recipe[mysql::client]",
+    "recipe[synapse::mysql_charset]",
     "recipe[nodejs::install_from_package]",
     "recipe[composer]",
     "recipe[python]",
