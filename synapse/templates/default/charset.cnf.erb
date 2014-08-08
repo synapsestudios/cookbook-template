@@ -1,0 +1,19 @@
+[client]
+default-character-set=<%= @node[:mysql_charset][:encoding] %>
+
+[mysql]
+default-character-set=<%= @node[:mysql_charset][:encoding] %>
+
+
+[mysqld]
+
+# http://bugs.mysql.com/bug.php?id=52047
+#
+# "The syntax '--default-character-set' is deprecated and will be removed in a future release. Please use --character-set-server instead."
+#
+# default-character-set = <%= @node[:mysql_charset][:encoding] %>
+
+
+collation-server = <%= @node[:mysql_charset][:collation] %>
+init_connect='SET collation_database = <%= @node[:mysql_charset][:collation] %>; SET collation_connection = <%= @node[:mysql_charset][:collation] %>; SET NAMES <%= @node[:mysql_charset][:encoding] %> COLLATE <%= @node[:mysql_charset][:collation] %>;'
+character-set-server = <%= @node[:mysql_charset][:encoding] %>
