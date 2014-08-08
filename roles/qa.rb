@@ -17,12 +17,7 @@ override_attributes(
         "server_debian_password" => "synapse1",
         "remove_anonymous_users" => true,
         "allow_remote_root"      => true,
-        "remove_test_database"   => true,
-        "confd_dir"              => "/etc/mysql/conf.d"
-    },
-    "mysql_charset" => {
-        "encoding"  => "utf8",
-        "collation" => "utf8_unicode_ci"
+        "remove_test_database"   => true
     },
     "etc_environment" => {
         "APP_ENV" => 'qa'
