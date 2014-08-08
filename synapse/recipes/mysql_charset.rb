@@ -1,12 +1,4 @@
-#
-# Cookbook Name:: mysql_charset
-# Recipe:: default
-#
-# Copyright 2012, YOUR_COMPANY_NAME
-#
-# All rights reserved - Do Not Redistribute
-#
-
+# Create config file which sets the default MySQL charset and collation
 template "#{node[:mysql][:confd_dir]}/charset.cnf" do
   source "charset.cnf.erb"
   mode "0644"
