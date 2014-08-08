@@ -60,6 +60,7 @@ run_list(
 	"recipe[synapse::cacheserver]",
 	"recipe[synapse::dev_utils]",
 	"recipe[synapse::dev_hosts]",
+	"recipe[synapse::dev_mysql_public]",
 	"recipe[app_deploy::web]",
 	"recipe[app_deploy::worker]",
 	"recipe[app_deploy]",
