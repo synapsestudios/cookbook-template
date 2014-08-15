@@ -30,9 +30,9 @@ while [[ ! $dev_host =~ $host_pattern ]] || [[ $dev_host =~ $protocol_pattern ]]
 done
 
 # Confirm settings are correct
-echo -e "\nGit URL\t$repo_url"
-echo -e "Dev App Name\t\t$dev_app_name"
-echo -e "Dev Host\t\t\t$dev_host\n"
+echo -e "\nGit URL\t\t$repo_url"
+echo -e "Dev App Name\t$dev_app_name"
+echo -e "Dev Host\t\t$dev_host\n"
 
 read -p "Are these settings correct? " confirm
 if [[ $confirm =~ ^[yY] ]]; then
@@ -54,8 +54,6 @@ if [[ $confirm =~ ^[yY] ]]; then
         rm -rf $path; git submodule add $url $path;
     done 3<tempfile
 
-    rm tempfile
-
     while read line; do
         IFS=':' read -a array <<< "$line"
         echo "Updating ${array[0]}";
@@ -65,12 +63,10 @@ if [[ $confirm =~ ^[yY] ]]; then
     rm tempfile
     rm modules.txt
   fi
-  git submodule add $cookbooks_repo_url cookbooks
-  git submodule update --init --recursive
 
   # Update Vagrantfile
-  sed -i "" s/%DEV_APP_NAME%/$dev_app_name/g Vagrantfile
-  sed -i "" s/%DEV_HOST%/$dev_host/g Vagrantfile
+  sed -i "" s/%DEV_APP_NAME%/$dev_app_name/g './roles/development.rb'
+  sed -i "" s/%DEV_HOST%/$dev_host/g './roles/development.rb'
 
   #rm initialize.sh
 else
