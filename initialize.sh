@@ -32,7 +32,7 @@ done
 # Confirm settings are correct
 echo -e "\nGit URL\t\t$repo_url"
 echo -e "Dev App Name\t$dev_app_name"
-echo -e "Dev Host\t\t$dev_host\n"
+echo -e "Dev Host\t$dev_host\n"
 
 read -p "Are these settings correct? " confirm
 if [[ $confirm =~ ^[yY] ]]; then
