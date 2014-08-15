@@ -6,14 +6,14 @@ override_attributes(
 		"webroot"        => "/vagrant/public",
 		"docroot"        => "/vagrant",
 		"database_name"  => "database_vm",
-		"server_name"    => "project.vm",
-		"server_aliases" => [ "project.vm"]
+		"server_name"    => "%DEV_HOST%",
+		"server_aliases" => [ "%DEV_HOST%"]
 	},
 	"lively" => {
 		"confroot"       => "/home/vagrant/docs",
 		"docroot"        => "/home/vagrant/lively",
-		"server_name"    => "lively.project.vm",
-		"server_aliases" => [ "lively.project.vm" ]
+		"server_name"    => "lively.%DEV_HOST%",
+		"server_aliases" => [ "lively.%DEV_HOST%" ]
 	},
 	"mysql" => {
 		"server_root_password"   => "synapse1",
@@ -25,7 +25,7 @@ override_attributes(
 	},
 	"etc_environment" => {
 		"APP_ENV"  => 'development',
-		"APP_NAME" => 'project'
+		"APP_NAME" => '%DEV_APP_NAME%'
 	},
 	"php" => {
 		"directives" => {
