@@ -9,21 +9,18 @@ git "lively" do
     repository "https://github.com/synapsestudios/lively"
     revision "master"
     user node['server']['user']
-    destination "#{node['lively']['docroot']}"
+    destination node['lively']['docroot']
     action :sync
 end
 
-execute "npm-install-lively" do
-    creates "node_modules"
-    cwd "#{node['lively']['docroot']}"
-    command "npm install"
-    user node['server']['user']
-    environment ({ "HOME" => "/home/#{node['server']['user']}" })
+npm_package "npm-install-lively" do
+    path node['lively']['docroot']
+    action :install_from_json
 end
 
 execute "bower-install-lively" do
     creates "bower_components"
-    cwd "#{node['lively']['docroot']}"
+    cwd node['lively']['docroot']
     command "bower install"
     user node['server']['user']
     environment ({ "HOME" => "/home/#{node['server']['user']}" })
@@ -35,8 +32,14 @@ web_app node["lively"]["server_name"] do
     template       "lively.conf.erb"
 end
 
+execute "lively-delete-config-files" do
+    cwd "/home/#{node['server']['user']}"
+    command "rm -rf #{node['lively']['confroot']}/"
+    user node['server']['user']
+    environment ({ "HOME" => "/home/#{node['server']['user']}" })
+end
+
 execute "lively-copy-config" do
-    creates "docs"
     cwd "/home/#{node['server']['user']}"
     command "cp -a #{node['server']['docroot']}/docs/config/ #{node['lively']['confroot']}/"
     user node['server']['user']
@@ -44,7 +47,6 @@ execute "lively-copy-config" do
 end
 
 execute "lively-inject-hostname" do
-    creates "docs"
     cwd "#{node['lively']['confroot']}"
     command "sed -i 's/%HOSTNAME%/#{node['server']['server_name']}/g' config.*.js"
     user node['server']['user']
