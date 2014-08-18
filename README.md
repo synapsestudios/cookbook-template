@@ -11,4 +11,6 @@
 1. Add the cookbooks repository to the main project (see [api-template README](https://github.com/synapsestudios/api-template) for more details).
 
 ### Testing
-1. To initalize the repo in test mode, run `./initialize.sh -t`. This will create a repo with no remote.
+1. In your test api-template repo run `git submodule add git@github.com:synapsestudios/cookbook-template.git cookbooks`.
+1. Navigate into the cookbooks directory.
+1. Initalize the cookbooks in test mode with `chmod +x initialize.sh; ./initialize.sh -t`.
