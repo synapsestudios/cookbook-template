@@ -9,3 +9,6 @@
     - Development Host Name
 1. Commit the files and submodules to master and push to origin.
 1. Add the cookbooks repository to the main project (see [api-template README](https://github.com/synapsestudios/api-template) for more details).
+
+### Testing
+1. To initalize the repo in test mode, run `./initialize.sh -t`. This will create a repo with no remote.
