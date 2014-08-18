@@ -67,3 +67,6 @@
 [submodule "hostsfile"]
 	path = hostsfile
 	url = git@github.com:customink-webops/hostsfile.git
+[submodule "npm"]
+	path = npm
+	url = git@github.com:balbeko/chef-npm.git

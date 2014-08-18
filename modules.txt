@@ -11,6 +11,7 @@ hostsfile:73969792
 iis:ea66276
 mysql:d9c657f
 nodejs:4c68552
+npm:83d8f655
 openssl:b9a52cd
 php:e5b36f3
 postgresql:5800238
