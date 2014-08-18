@@ -7,16 +7,26 @@ ssh_pattern=^.*@.*\..*:.*$
 git --version > /dev/null 2>&1
 GIT_INSTALLED=$?
 
-[[ $GIT_INSTALLED -ne 0 ]] && { echo "Install git before executing this script."; exit 0; }
+[[ $GIT_INSTALLED -ne 0 ]] && { echo "Install git before executing this script."; exit 0;
+
+test_init=false
+while getopts ":t" opt; do
+  case $opt in
+    t) test_init=true;;
+    \?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
+  esac
+done
 
 # Get input for Git
-repo_url=""
-while [[ ! $repo_url =~ $ssh_pattern ]]; do
-  if [[ $repo_url != "" ]]; then
-    echo "Invalid Git SSH URL"
-  fi
-  read -p "Enter Git SSH URL: " repo_url
-done
+if [[ $test_init == false ]]; then
+  repo_url=""
+  while [[ ! $repo_url =~ $ssh_pattern ]]; do
+    if [[ $repo_url != "" ]]; then
+      echo "Invalid Git SSH URL"
+    fi
+    read -p "Enter Git SSH URL: " repo_url
+  done
+fi
 
 # Get input for Chef Roles
 dev_app_name=""
@@ -30,7 +40,10 @@ while [[ ! $dev_host =~ $host_pattern ]] || [[ $dev_host =~ $protocol_pattern ]]
 done
 
 # Confirm settings are correct
-echo -e "\nGit URL\t\t$repo_url"
+if [[ $test_init == false ]]; then
+  echo -e "\nGit URL\t\t$repo_url"
+fi
+
 echo -e "Dev App Name\t$dev_app_name"
 echo -e "Dev Host\t$dev_host\n"
 
@@ -41,7 +54,10 @@ if [[ $confirm =~ ^[yY] ]]; then
   rm -rf .git
   git init
 
-  git remote add origin $repo_url
+  if [[ $test_init == false ]]; then
+    git remote add origin $repo_url
+  fi
+
   git checkout -b master
   # Add submodules from .gitmodules, if any
   if [ -e ".gitmodules" ] && [ -s ".gitmodules" ]; then
@@ -68,7 +84,7 @@ if [[ $confirm =~ ^[yY] ]]; then
   sed -i "" s/%DEV_APP_NAME%/$dev_app_name/g './roles/development.rb'
   sed -i "" s/%DEV_HOST%/$dev_host/g './roles/development.rb'
 
-  #rm initialize.sh
+  rm initialize.sh
 else
   echo "Initialization cancelled"
 fi
