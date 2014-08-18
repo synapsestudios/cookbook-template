@@ -7,7 +7,7 @@ ssh_pattern=^.*@.*\..*:.*$
 git --version > /dev/null 2>&1
 GIT_INSTALLED=$?
 
-[[ $GIT_INSTALLED -ne 0 ]] && { echo "Install git before executing this script."; exit 0;
+[[ $GIT_INSTALLED -ne 0 ]] && { echo "Install git before executing this script."; exit 0; }
 
 test_init=false
 while getopts ":t" opt; do
