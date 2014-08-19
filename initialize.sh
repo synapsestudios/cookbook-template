@@ -75,9 +75,8 @@ if [[ $confirm =~ ^[yY] ]]; then
 
   if [[ $test_init == false ]]; then
     git remote add origin $repo_url
+    git checkout -b master
   fi
-
-  git checkout -b master
 
   # Apply specific submodules
   while read line; do
@@ -98,7 +97,7 @@ if [[ $confirm =~ ^[yY] ]]; then
 
   rm /tmp/modules.txt
 
-  # Update Vagrantfile
+  echo "Updating Vagrantfile"
   sed -i "" s/%DEV_APP_NAME%/$dev_app_name/g './roles/development.rb'
   sed -i "" s/%DEV_HOST%/$dev_host/g './roles/development.rb'
 
