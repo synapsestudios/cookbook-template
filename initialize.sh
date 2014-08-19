@@ -81,7 +81,7 @@ if [[ $confirm =~ ^[yY] ]]; then
 
   # Apply specific submodules
   while read line; do
-      IFS=' ' read -a array <<< "$line"
+      IFS=" " read -a array <<< "$line"
 
       path=${array[0]}
       commit=${array[1]}
