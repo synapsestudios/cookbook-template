@@ -87,12 +87,12 @@ if [[ $confirm =~ ^[yY] ]]; then
       commit=${array[1]}
       url=${array[2]}
 
-      echo "Updating $path"
+      echo "Updating $path to $commit"
       rm -rf $path
-      git submodule add $url $path
+      git submodule add $url $path 2>&1 >/dev/null
 
       cd $path
-      git checkout $commit
+      git checkout $commit 2>&1 >/dev/null
       cd ..
   done </tmp/modules.txt
 
