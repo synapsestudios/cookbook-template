@@ -40,15 +40,34 @@ while [[ ! $dev_host =~ $host_pattern ]] || [[ $dev_host =~ $protocol_pattern ]]
 done
 
 # Confirm settings are correct
+echo -e "\n"
 if [[ $test_init == false ]]; then
-  echo -e "\nGit URL\t\t$repo_url"
+  echo -e "Git URL\t\t$repo_url"
 fi
 
 echo -e "Dev App Name\t$dev_app_name"
-echo -e "Dev Host\t$dev_host\n"
+echo -e "Dev Host\t$dev_host"
+echo -e "\n"
 
 read -p "Are these settings correct? " confirm
 if [[ $confirm =~ ^[yY] ]]; then
+
+  # Collect submodule information
+  git config -f .gitmodules --get-regexp '^submodule\..*\.path$' > gitmodules.tmp
+  while read -u 3 path_key path
+  do
+
+      url_key=$(echo $path_key | sed 's/\.path/.url/')
+      url=$(git config -f .gitmodules --get "$url_key")
+
+      status=($(git ls-tree master $path))
+      commit=${status[2]}
+
+      echo "$path $commit $url" >> modules.tmp
+  done 3<gitmodules.tmp
+
+  rm gitmodules.tmp
+
   # Intialize new git repo
   set -e
   rm -rf .git
@@ -56,31 +75,29 @@ if [[ $confirm =~ ^[yY] ]]; then
 
   if [[ $test_init == false ]]; then
     git remote add origin $repo_url
+    git checkout -b master
   fi
 
-  git checkout -b master
-  # Add submodules from .gitmodules, if any
-  if [ -e ".gitmodules" ] && [ -s ".gitmodules" ]; then
-    git config -f .gitmodules --get-regexp '^submodule\..*\.path$' > tempfile
-    while read -u 3 path_key path
-    do
-        url_key=$(echo $path_key | sed 's/\.path/.url/')
-        url=$(git config -f .gitmodules --get "$url_key")
-        echo "Updating $path";
-        rm -rf $path; git submodule add $url $path;
-    done 3<tempfile
+  # Apply specific submodules
+  while read line; do
+      IFS=" " read -a array <<< "$line"
 
-    while read line; do
-        IFS=':' read -a array <<< "$line"
-        echo "Updating ${array[0]}";
-        cd "${array[0]}"; git checkout "${array[1]}"; cd ..;
-    done <modules.txt
+      path=${array[0]}
+      commit=${array[1]}
+      url=${array[2]}
 
-    rm tempfile
-    rm modules.txt
-  fi
+      echo "Updating $path to $commit"
+      rm -rf $path
+      git submodule add $url $path 2>&1 >/dev/null
 
-  # Update Vagrantfile
+      cd $path
+      git checkout $commit 2>&1 >/dev/null
+      cd ..
+  done <modules.tmp
+
+  rm modules.tmp
+
+  echo "Updating Vagrantfile"
   sed -i "" s/%DEV_APP_NAME%/$dev_app_name/g './roles/development.rb'
   sed -i "" s/%DEV_HOST%/$dev_host/g './roles/development.rb'
 
