@@ -49,6 +49,22 @@ echo -e "Dev Host\t$dev_host\n"
 
 read -p "Are these settings correct? " confirm
 if [[ $confirm =~ ^[yY] ]]; then
+  # Collect submodule information
+  git config -f .gitmodules --get-regexp '^submodule\..*\.path$' > gitmodules.tmp
+  while read -u 3 path_key path
+  do
+
+      url_key=$(echo $path_key | sed 's/\.path/.url/')
+      url=$(git config -f .gitmodules --get "$url_key")
+
+      status=($(git ls-tree master $path))
+      commit=${status[2]}
+
+      echo -e "$path $commit $url" >> modules.tmp
+  done 3<gitmodules.tmp
+
+  rm gitmodules.tmp
+
   # Intialize new git repo
   set -e
   rm -rf .git
@@ -59,26 +75,25 @@ if [[ $confirm =~ ^[yY] ]]; then
   fi
 
   git checkout -b master
-  # Add submodules from .gitmodules, if any
-  if [ -e ".gitmodules" ] && [ -s ".gitmodules" ]; then
-    git config -f .gitmodules --get-regexp '^submodule\..*\.path$' > tempfile
-    while read -u 3 path_key path
-    do
-        url_key=$(echo $path_key | sed 's/\.path/.url/')
-        url=$(git config -f .gitmodules --get "$url_key")
-        echo "Updating $path";
-        rm -rf $path; git submodule add $url $path;
-    done 3<tempfile
 
-    while read line; do
-        IFS=':' read -a array <<< "$line"
-        echo "Updating ${array[0]}";
-        cd "${array[0]}"; git checkout "${array[1]}"; cd ..;
-    done <modules.txt
+  # Apply specific submodules
+  while read line; do
+      IFS=' ' read -a array <<< "$line"
 
-    rm tempfile
-    rm modules.txt
-  fi
+      path=${array[0]}
+      commit=${array[1]}
+      url=${array[2]}
+
+      echo "Updating $path"
+      rm -rf $path
+      git submodule add $url $path
+
+      cd $path
+      git checkout $commit
+      cd ..
+  done <modules.tmp
+
+  rm modules.tmp
 
   # Update Vagrantfile
   sed -i "" s/%DEV_APP_NAME%/$dev_app_name/g './roles/development.rb'
