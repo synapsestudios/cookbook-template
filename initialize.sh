@@ -53,7 +53,7 @@ read -p "Are these settings correct? " confirm
 if [[ $confirm =~ ^[yY] ]]; then
 
   # Collect submodule information
-  git config -f .gitmodules --get-regexp '^submodule\..*\.path$' > /tmp/gitmodules.txt
+  git config -f .gitmodules --get-regexp '^submodule\..*\.path$' > gitmodules.tmp
   while read -u 3 path_key path
   do
 
@@ -63,10 +63,10 @@ if [[ $confirm =~ ^[yY] ]]; then
       status=($(git ls-tree master $path))
       commit=${status[2]}
 
-      echo "$path $commit $url" >> /tmp/modules.txt
-  done 3</tmp/gitmodules.txt
+      echo "$path $commit $url" >> modules.tmp
+  done 3<gitmodules.tmp
 
-  rm /tmp/gitmodules.txt
+  rm gitmodules.tmp
 
   # Intialize new git repo
   set -e
@@ -93,9 +93,9 @@ if [[ $confirm =~ ^[yY] ]]; then
       cd $path
       git checkout $commit 2>&1 >/dev/null
       cd ..
-  done </tmp/modules.txt
+  done <modules.tmp
 
-  rm /tmp/modules.txt
+  rm modules.tmp
 
   echo "Updating Vagrantfile"
   sed -i "" s/%DEV_APP_NAME%/$dev_app_name/g './roles/development.rb'
