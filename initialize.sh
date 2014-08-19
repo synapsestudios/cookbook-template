@@ -40,17 +40,20 @@ while [[ ! $dev_host =~ $host_pattern ]] || [[ $dev_host =~ $protocol_pattern ]]
 done
 
 # Confirm settings are correct
+echo -e "\n"
 if [[ $test_init == false ]]; then
-  echo -e "\nGit URL\t\t$repo_url"
+  echo -e "Git URL\t\t$repo_url"
 fi
 
 echo -e "Dev App Name\t$dev_app_name"
-echo -e "Dev Host\t$dev_host\n"
+echo -e "Dev Host\t$dev_host"
+echo -e "\n"
 
 read -p "Are these settings correct? " confirm
 if [[ $confirm =~ ^[yY] ]]; then
+
   # Collect submodule information
-  git config -f .gitmodules --get-regexp '^submodule\..*\.path$' > gitmodules.tmp
+  git config -f .gitmodules --get-regexp '^submodule\..*\.path$' > /tmp/gitmodules.txt
   while read -u 3 path_key path
   do
 
@@ -60,10 +63,10 @@ if [[ $confirm =~ ^[yY] ]]; then
       status=($(git ls-tree master $path))
       commit=${status[2]}
 
-      echo -e "$path $commit $url" >> modules.tmp
-  done 3<gitmodules.tmp
+      echo "$path $commit $url" >> /tmp/modules.txt
+  done 3</tmp/gitmodules.txt
 
-  rm gitmodules.tmp
+  rm /tmp/gitmodules.txt
 
   # Intialize new git repo
   set -e
@@ -91,9 +94,9 @@ if [[ $confirm =~ ^[yY] ]]; then
       cd $path
       git checkout $commit
       cd ..
-  done <modules.tmp
+  done </tmp/modules.txt
 
-  rm modules.tmp
+  rm /tmp/modules.txt
 
   # Update Vagrantfile
   sed -i "" s/%DEV_APP_NAME%/$dev_app_name/g './roles/development.rb'
