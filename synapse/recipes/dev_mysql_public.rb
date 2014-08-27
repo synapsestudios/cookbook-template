@@ -3,5 +3,5 @@ execute "make-mysql-server-public" do
     command "sed -i 's/bind-address/# bind-address/g' my.cnf"
     user 'root'
     environment ({ "HOME" => "/home/#{node['server']['user']}" })
-    notifies :reload, 'service[mysql]'
+    notifies :restart, 'service[mysql]'
 end
